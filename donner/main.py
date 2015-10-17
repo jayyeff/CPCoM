@@ -110,7 +110,9 @@ class SignupHandler(Handler):
 		user = ""
 		if self.user:
 			user = self.user.username
-		self.render("index.html", userperson = user)
+			self.render("index.html", userperson = user)
+		else:
+			self.render("sign-up-user.html")
 	def post(self):
 		if self.user:
 			self.redirect("/start")
@@ -201,7 +203,7 @@ class Match(Handler):
                     self.render("match.html",match=match)
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/sign-up',SignupHandler),
+    ('/sign-up-user',SignupHandler),
     ('/start',UserPageHandler),
     ('/logout',Logout),
 	('/mbs',books),
