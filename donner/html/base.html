@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head><title>Book Share</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<link rel="stylesheet" href="../css/bootstrap.css" type="text/css" media="screen">
+			<link rel="stylesheet" href="../css/bootstrap-responsive.css" type="text/css" media="screen">
+    </head>
+	<body>
+		<script src="../js/bootstrap.js" type="text/javascript"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    	<script src="https://www.google.com/jsapi"></script>
+    	
+		<div class="container-fluid" style="padding-bottom:10px;">
+			<div class="navbar" role="navigation">
+				<div class="navbar-inner">
+					<div class="container">
+						<ul class="nav">
+							<li class="brand">BookShare</li>
+							<li class='active'><a href="/">Home</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href='/repository'>Repository</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href='/mbs'>My Books</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href='/Aboutus'>About Us</a></li>
+							
+							<li class="dropdown" style="text-align:right;">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Hello,{% block user %}{% endblock %}
+									<b class="caret"></b>
+								</a>
+								<ul class='dropdown-menu'>
+									<li class="pull-left"> <a href="/start">Profile</a></li>
+									<li class='pull-left'> <a href="/mbs">MyList</a></li>
+									<li class='pull-left'><a href="/match"> Match</a></li>
+									<li class="divider"></li>
+									<li class="pull-left"><a href="/logout">Logout</a></li>
+								</ul>
+							</li>
+							
+						</ul>
+
+					</div>
+
+				</div>
+			</div>
+				<br>
+
+				{% block body %}
+
+				{% endblock %}
+			<div id="footer">
+
+
+			</div>
+			</div>
+
+
+
+	</body>
+</html>

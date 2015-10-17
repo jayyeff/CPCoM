@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block user %} {{userperson}} {% endblock %}	
+{% block body %}
+<style>
+
+	.result-part{
+		margin:10px;
+		overflow:hidden;
+		padding-bottom:5px;
+
+	}
+	section{
+		position:relative;
+		left:10%;
+		clear:both;
+		border-bottom: 1px solid #666;
+
+	}
+	
+	.short-desc{
+		max-width: 50%;
+		padding-left: 15px;
+
+	}
+	p{
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		line-height: 18px;
+	}
+</style>
+
+	
+		
+ 	<form method="get" class="form-search" style="position:relative;left:25%;">
+  		<div class="input-append" >
+    		<input type="text" class="span6" style="height:30px;" name="query" placeholder="Enter your book title">
+    	<button type="submit" class="btn">Search</button>
+  		</div>
+
+  
+	</form>
+
+	<div class="container">
+		<div class="row">
+			<div class="span9">
+				<section class="result-part">
+				<img  class="pull-left" src="http://bks4.books.google.com/books?id=QETG5X7W68IC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" height="85px" width="80px">
+				<div class="short-desc pull-left">
+				<h3><a style="display:inline;" href="#">MasterMind </a></h3>
+				<p id="data" style="color:grey;">Available Date: 17/10'/17 to 18/10/11 </p>
+				<p>
+
+					{{description}} What I alkfsdklfksdklfklasklfklsdklfklsdfklskdfklsfkldslflsdklfslfdkllskdfklsdlfslkfslfds
+				</p>
+			</div>
+				<div class="price-avail pull-right">
+					Owner: <a href="">Paras</a>
+					<p class="avail">
+						Status : Swap
+					</p>
+					<button class="btn btn-success">
+						Add 
+						<i class="icon-ok"></i>
+					</button>
+				</div>
+			</section>
+			</div>
+		</div>
+	</div>
+	
+
+
+
+{% endblock %}
