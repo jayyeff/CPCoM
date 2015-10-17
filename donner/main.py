@@ -99,81 +99,60 @@ class MainHandler(Handler):
         user=""
         if self.user:
            user=self.user.username
-        self.render("index.html",userperson=user)
+        self.render("index.html", userperson=user)
     def post(self):
         error="The Username you provided already exist"
-        chk=self.request.get('process')
-        if chk=="signup":
-            username=self.request.get("username")
-            password=self.request.get("password")
-            repass=self.request.get('repassword')
-            email=self.request.get("email")
-            if password !=repass:
-                self.render('index.html', pass_message="Password do not match")
-            else:#
-                p=db.user_acc.by_name(username)
-                if p:
-                    self.render("index.html",message=error)
-                else: #
-                    p=db.user_acc.register(username=username,password=password,email=email)
-                    p.put()
-                    self.set_secure_cookie('user_id',str(p.key().id()))
-                    self.redirect('/start')
-        elif chk=='signin':
-            username=self.request.get("uname")
-            password=self.request.get("pass")
-            u=db.user_acc.login(username,password)#
-            if u:
-                self.login(u)
-                self.redirect('/start')
-            else:
-                msg="Invalid Login Info"
-                self.redirect('/')
             
-            
-class BookHandler(Handler):
-    def get(self):
-        if self.user:
-            self.render("start.html",userperson=self.user.username)
-        else:
-            self.redirect("/") 
-    def post(self):
-        if(self.request.get("book")):
-            base_url="https://www.googleapis.com/books/v1/volumes?q="
-            query=self.request.get("field-keywords")
-            try:
-                content=urllib2.urlopen(base_url+query).read()
-            except:
-                return
-            if content:
-                js=json.loads(content)
-                items=[]
-                for eachitem in js["items"]:
-                    title=eachitem["volumeInfo"]["title"]
-                    img_url=eachitem["volumeInfo"]["imageLinks"]["thumbnail"]
-                    authors=eachitem["volumeInfo"]["authors"]
-                    authors=', '.join(authors)
-                    description=eachitem["volumeInfo"]["description"][:300]                            
-                    items.append([title,authors,img_url,description])
-                self.render("start.html",userperson=self.user.username,items=items)
-        else:
-            bookInfo=self.request.get('postvar')
-            vale=json.loads(bookInfo)
-            for each in vale:
-                booktitle=each
-                author=vale[each][0]
-                imageurl=vale[each][1]
-                iswish=vale[each][2]
-                ret=self.check_match(booktitle,iswish)
-                for eachval in ret[1]:
-                        if ret[0]:
-                                match=db.user_match(user_wish=self.user.username,user_have=eachval.username,booktitle=eachval.booktitle)
-                                match.put()
-                        else:
-                                match=db.user_match(user_have=self.user.username,user_wish=eachval.username,booktitle=eachval.booktitle)
-                                match.put()
-                bookdb=db.user_book(booktitle=booktitle, author=author,username=self.user.username,iswish=iswish)
-                bookdb.put()
+class SignupHandler(Handler):
+	def get(self):
+		self.render("index.html", userperson = user)
+	def post(self):
+		if self.user:
+			self.redirect("/start")
+		else:
+			error="The Username you provided already exist"
+			username= self.request.get("username")
+	        password = self.request.get("password")
+	        repass=self.request.get('repassword')
+	        email=self.request.get("email")
+	        if password != repass:
+	                self.render('index.html', pass_message="Password do not match")
+	        else:
+	            p=db.user_acc.by_name(username)
+	            if p:
+	                self.render("index.html",message=error)
+	            else: #
+	                p=db.user_acc.register(username=username,password=password,email=email)
+	                p.put()
+	                self.set_secure_cookie('user_id',str(p.key().id()))
+	                self.redirect('/start')
+class LoginHandler(Handler):
+	def get(self):
+		self.render("")
+	def post(self):
+		if self.user:
+			self.redirect("/start")
+		else:
+			usertype = self.request.get("utype")
+			username=self.request.get("uname")
+	        password=self.request.get("pass")
+	        if usertype == "donor":
+	        	u = db.user_acc.login(username, password)
+	        elif usertype == "organization":
+	        	u = db.org_acc.login(username, password)
+	        if u:
+	            self.login(u)
+	            self.redirect('/start')
+	        else:
+	            msg="Invalid Login Info"
+	            self.redirect('/')
+
+class UserPageHandler(Handler):
+	def get(self):
+		self.render("", username = self.user.username)
+	def post(self):
+		pass
+
 class Logout(Handler):#handles user logout 
     def get(self):
         self.logout()
@@ -182,7 +161,7 @@ class books(Handler): #display user books
     def get(self):
         cursor=db.user_book.get_all(self.user.username)
         book_list=list(cursor)
-        self.render("mybs.html",book_list=book_list,username=self.user.username)
+        self.render("mybs.html",book_list=book_list, username=self.user.username)
 class Repository(Handler):
     def get(self):
         search_query=self.request.get('query')
@@ -198,8 +177,8 @@ class Match(Handler):
                     self.render("match.html",match=match)
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/sign-up',BookHandler),
-    ('/repository',Repository),
+    ('/sign-up',SignupHandler),
+    ('/start',UserPageHandler),
     ('/logout',Logout),
 	('/mbs',books),
     ('/match',Match),
