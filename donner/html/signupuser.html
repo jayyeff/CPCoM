@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <body> 
-    <form id="form1" runat="server">
+    <form id="form1" method = "post">
     <div>              
     </div> 
     <h2 align="center"> Sign Up Form</h2>
@@ -11,36 +11,36 @@
        
     	<tr>
               <td  align="right" class="style1">Email Address</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name = "email"/></td>
        </tr>
 
        <tr>
               <td  align="right" class="style1">Password</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name ="password"/></td>
        </tr>
 
        <tr>
               <td  align="right" class="style1">Confirm Password</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name = "repassword"/></td>
        </tr>
 
        <tr>
               <td  align="right" class="style1">First Name</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name = "first_name"/></td>
        </tr>
 
        <tr>
               <td  align="right" class="style1">Last Name</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name = "last_name"/></td>
        </tr>
 
        <tr>
               <td  align="right" class="style1">Username</td>
-              <td><input type="text" /></td>
+              <td><input type="text" name ="username"/></td>
        </tr>
        
         <tr>
-        <td> <input type="button" value="Submit" align="right"/>
+        <td> <input type="submit" value="Submit" align="right"/>
         <td> <input type="button" value="Reset" />       
         </td>
         </tr>

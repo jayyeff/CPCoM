@@ -165,14 +165,20 @@ class LoginHandler(Handler):
 	        if usertype == "donor":
 	        	u = db.user_acc.login(username, password)
 	        elif usertype == "organization":
-	        	u = db.org_acc.login(username, password)
-	        if u:
-	            self.login(u)
-	            self.redirect('/start')
+				params = urllib.urlencode({"username":username,"password": password})
+				connection.connect()
+				connection.request('GET', '/1/login?%s' % params, '', {
+		   		"X-Parse-Application-Id": APP_KEY,
+		   		"X-Parse-REST-API-Key": PARSE_API_KEY,
+		   		"X-Parse-Revocable-Session": "1"
+		 		})
+				result = json.loads(connection.getresponse().read())
+				print result
+	            #self.login(u)
+	            #self.redirect('/start')
 	        else:
 	            msg="Invalid Login Info"
 	            self.redirect('/')
-
 class UserPageHandler(Handler):
 	def get(self):
 		self.render("", username = self.user.username)
