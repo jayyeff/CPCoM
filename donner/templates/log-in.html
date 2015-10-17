@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block user %} {{userperson}} {% endblock %}
+{% block body %}
 
-<html lang="en-US">
 
-<body> 
     <form id="form1" method = "post">
 
       <div class = "container">
@@ -40,6 +40,5 @@
     </div>
 
     </form>
-</body>
 
-</html>
+  {% endblock %}
