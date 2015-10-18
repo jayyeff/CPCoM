@@ -152,6 +152,50 @@ class SignupHandler(Handler):
 	            #     p.put()
 	            #     self.set_secure_cookie('user_id',str(p.key().id()))
 	            #     self.redirect('/start')
+class org_signupHandler(Handler):
+    def get(self):
+        user = ""
+        if self.org_person:
+            username = self.user.username
+            self.render("index.html", userperson = org_person)
+        else:
+            self.render("sign-up-org.html")
+    def post(self):
+        if self.org_person:
+            self.redirect("/start")
+        else:
+            error="The Username you provided already exist"
+            org_name = self.request,get("org_name")
+            username= self.request.get("username")
+            password = self.request.get("password")
+            repass=self.request.get('repassword')
+            Location=self.request.get('Location')
+            email=self.request.get("email")
+            category = self.request.get('catogery')
+            Phone_Number= self.request.get('Phone_Number')
+            if password != repass:
+                    self.render('index.html', pass_message="Password do not match")
+            else:
+                params = urllib.urlencode(
+                    {"loginname" : username
+                     "email" : email,
+                     "name" : org_name
+                     "location" : Location
+                     "loginpassword" : password,    
+                     "catogery" : category,
+                     "phone" : Phone_Number,
+                    }
+                    )
+                connection.connect()
+                connection.request('GET', '/1/login?%s' % params, '',
+                    {
+                    'X-Parse-Application-Id' : APP_KEY,name,
+                    'X-Parse-REST-API-Key' : PARSE_API_KEY,
+                    'X-Parse-Revocable-Session': '1'
+                    })
+                result = json.loads(connection.getresponse().read())
+                self.response.write(result)
+
 class UserInfoHandler(Handler):
 	def post(self):
 		pass
