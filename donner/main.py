@@ -266,11 +266,18 @@ class Logout(Handler):#handles user logout
         self.logout()
         self.redirect('/')
 
+class OrganizationHandler(Handler):
+	def get(self):
+		self.render("organization.html")
+	def post(self):
+		pass 
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/log-in', LoginHandler),
     ('/sign-up-user',SignupHandler),
     ('/sign-up-org',SignUpOrganization),
     ('/user-info', UserInfoHandler),
+    ('/organization', OrganizationHandler),
     ('/logout',Logout),
 ], debug=True)
