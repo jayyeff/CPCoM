@@ -158,12 +158,12 @@ class UserInfoHandler(Handler):
 		user_name = "Parasher Ghimire"
 		organizations_donated = ["Brease Awareness", "HIV awareness"]
 		sectors = { 
-		"Health" : 15,
-		"Environment" : 35,
-		"Community Development" : 10 ,
-		"Human Civil Rights" : 15,
-		"Research & Public Policy" : 20 ,
-		"Religion" : 20 }
+		str("Health"): 15,
+		str("Environment") : 35,
+		str("Community Development") : 10 ,
+		str("Human Civil Rights") : 15,
+		str("Research and Public Policy") : 20 ,
+		str("Religion") : 20 }
 		sectors = json.dumps(sectors)
 		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
