@@ -2,7 +2,13 @@
 {% block user %} {{userperson}} {% endblock %}
 {% block body %}
 
+    <br>
+    <br>
+    <br>
+    <br>
+  <center>
 
+<<<<<<< Updated upstream
 
 <div class="container">
   <h2>Vertical (basic) form</h2>
@@ -29,13 +35,68 @@
         <div class = "row">             
      
       <h2 align="center"> Sign Up </h2>
+=======
+  
+  <div class = "container">
+    <h1>SIGH UP</h1>
+
+    <br><br>
+  <form role="form" method = "POST">
+
+  <div class="form-group">
+    <label for="firstName">First Name:</label>
+    <input type="text" placeholder = "please input first name" class="form-control" id="firstName" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name:</label>
+    <input type="text" placeholder = "please input last name" class="form-control" id="lastName" style="width: 300px;">
+  </div>
+
+
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" placeholder = "please input valid email address" class="form-control" id="email" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="uname">Username:</label>
+    <input type="email" placeholder = "please choose a username" class="form-control" id="uname" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" placeholder = "please choose a password" class="form-control" id="pwd" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="conpwd">Confirm Password:</label>
+    <input type="password" placeholder = "please retype password" class="form-control" id="conpwd" style="width: 300px;">
+  </div>
+
+  
+  <br>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+<br>
+<br><br>
+
+</center>
+
+
+   <!--  <div class = "container"> 
+        <div class = "row">             
+     
+      <h2 align="center"> Sign Up</h2>
+>>>>>>> Stashed changes
 
         </div>
             <div class = "row">
 
               <div class "col-lg-5">
 
-                <table id="table1"; cellspacing="5px" cellpadding="5%"; align="center" border = "5">
+                <table id="table1"; cellspacing="5px" cellpadding="5%"; align="center" width = "75%">
 
                 	<tr>
                           <td  align="right" class="style1">Email Address</td>
@@ -73,7 +134,7 @@
                       <div class = "col-lg-6">
                     <tr>
                     
-                    <td> <input type="button" value="Submit" align="right"/>
+                    <td> <input type="submit" value="Submit" align="right"/>
                       </div>
                       <div class = "col-lg-6">
                     <td> <input type="button" value="Reset" /> 
@@ -85,7 +146,11 @@
                     </tr>
              </div>
        </div>
+<<<<<<< Updated upstream
 </table> 
     </form> -->
+=======
+</table>  -->
+>>>>>>> Stashed changes
 
 {% endblock %}
