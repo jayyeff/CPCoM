@@ -27,7 +27,6 @@ import random
 import json,httplib
 from string import letters
 #from google.appengine.ext import db
-import db
 SECMES="du10A010F0Tny89810lkd4n5"
 PARSE_API_KEY = "ZkjPSQ905cbBjlBuEpmK97VPPrr7hIc1DtY9ELnT"
 APP_KEY = "VAX09Xo9xpFdA78ppgVki2u5Fnzr0VQTnXrkftUz"
