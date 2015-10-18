@@ -153,9 +153,9 @@ class SignupHandler(Handler):
 	            #     self.set_secure_cookie('user_id',str(p.key().id()))
 	            #     self.redirect('/start')
 class UserInfoHandler(Handler):
-	def get(self):
-		self.render()
 	def post(self):
+		pass
+	def get(self):
 		user_name = "Parasher Ghimire"
 		organizations_donated = ["Brease Awareness", "HIV awareness"]
 		sectors = { 
