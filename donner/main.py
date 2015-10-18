@@ -166,7 +166,7 @@ class UserInfoHandler(Handler):
 		'Research & Public Policy' : 20 ,
 		'Religion' : 20 }
 
-		donated_over_months = [120, 130, 10, 13, 12, 12, ,12 ,12 ,13, 14, 30, 14]
+		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
 class LoginHandler(Handler):
 	def get(self):
