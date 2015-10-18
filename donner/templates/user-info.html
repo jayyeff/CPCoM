@@ -15,15 +15,16 @@
 	    <script type="text/javascript">
 	      google.load("visualization", "1", {packages:["corechart"]});
 	      google.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	        var data = google.visualization.arrayToDataTable([
-	          ['Organization', 'Dollars'],
-	          ['Health', 11],
-	          ['Women', 2],
-	          ['Children', 4],
-	          ['Education',7]
-	        ]);
+	      var sectors = {{sectors}};
+	      function drawChart(sectors) {
+	      	var minList = []
+	      	for(var key in sectors){
+	      		var list = [];
+	      		list.push(key);
+	      		list.push(sectors[key]);
+	      	}
 
+	        var data = google.visualization.arrayToDataTable(minList);
 	        var options = {
 	          title: 'Your Donation',
 	          pieHole: 0.4,

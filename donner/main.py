@@ -199,17 +199,11 @@ class UserInfoHandler(Handler):
 	def post(self):
 		pass
 	def get(self):
-		user_name = "Parasher Ghimire"
-		organizations_donated = ["Brease Awareness", "HIV awareness"]
-		sectors = { 
-		'Health' : 15,
-		'Environment' : 35,
-		'Community Development' : 10 ,
-		'Human Civil Rights' : 15,
-		'Research & Public Policy' : 20 ,
-		'Religion' : 20 }
-
-		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
+        user_name = "Parasher Ghimire"
+	    organizations_donated = ["Brease Awareness", "HIV awareness"]
+		sectors = { 'Health' : 15,'Environment' : 35, 'Community Development' : 10 ,'Human Civil Rights' : 15, 'Research & Public Policy' : 20 ,'Religion' : 20 }
+        sectors = json.dump(sectors);
+		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14];
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
 class LoginHandler(Handler):
 	def get(self):
