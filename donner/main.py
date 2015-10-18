@@ -123,7 +123,7 @@ class org_signupHandler(Handler):
             password = self.request.get("password")
             repass=self.request.get('repassword')
             email=self.request.get("email")
-            category = self.request.get('catogery')
+            catogery = self.request.get('catogery')
             Phone_Number= self.request.get('Phone_Number')
             if password != repass:
                     self.render('index.html', pass_message="Password do not match")
@@ -133,7 +133,7 @@ class org_signupHandler(Handler):
                      "email" : email,
                      "name" : org_name,
                      "loginpassword" : password,    
-                     "catogery" : category,
+                     "catogery" : catogery,
                      "phone" : Phone_Number,
                     }
                     )
