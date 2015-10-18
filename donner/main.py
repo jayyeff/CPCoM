@@ -22,13 +22,14 @@ import hmac
 import re
 import json
 import urllib2
+import urllib
 import random
 import json,httplib
 from string import letters
 #from google.appengine.ext import db
 import db
 SECMES="du10A010F0Tny89810lkd4n5"
-PARSE_API_KEY = "1yQIRpJR8lacwgyqfnW1DPHx7gB7TadGZ772VM83"
+PARSE_API_KEY = "ZkjPSQ905cbBjlBuEpmK97VPPrr7hIc1DtY9ELnT"
 APP_KEY = "VAX09Xo9xpFdA78ppgVki2u5Fnzr0VQTnXrkftUz"
 #joins the path of current direcotry with template
 temp_dir=os.path.join(os.path.dirname(__file__),'templates')
@@ -127,31 +128,32 @@ class SignupHandler(Handler):
 	        if password != repass:
 	                self.render('index.html', pass_message="Password do not match")
 	        else:
-	        	params = urllib.urlencode(
-	        		{"User Name" : username,
-	        		 "Email" : email,
-	        		 "Password" : password,
+	        	connection.connect()
+	        	connection.request('POST', '/1/users', json.dumps(
+	        		{"username" : username,
+	        		 "email" : email,
+	        		 "password" : password,
 	        		 "first_name" : first_name,
 	        		 "last_name" : last_name,
-	        		}
-	        		)
-	        	connection.connect()
-	        	connection.request('GET', '/1/login?%s' % params, '',
+	        		}),
 	        		{
 	        		'X-Parse-Application-Id' : APP_KEY,
 	        		'X-Parse-REST-API-Key' : PARSE_API_KEY,
-	        		'X-Parse-Revocable-Session': '1'
+	        		'X-Parse-Revocable-Session': '1',
+	        		"Content-Type": "application/json"
 	        		})
 	        	result = json.loads(connection.getresponse().read())
 	        	self.response.write(result)
-	            #p=db.user_acc.by_name(username)
-	            # if p:
-	            #     self.render("index.html",message=error)
-	            # else: #
-	            #     p=db.user_acc.register(username=username,password=password,email=email)
-	            #     p.put()
-	            #     self.set_secure_cookie('user_id',str(p.key().id()))
-	            #     self.redirect('/start')
+	        	# if(result['createdAt']):
+	        	# 	user_id = result['objectId']
+	        	# 	self.login(user_id)
+	        	# 	self.redirect('/start')
+	        	# if(result['createdAt']):
+	        	# 	user_id = result['objectId']
+	        	# 	self.login(user_id)
+	         #    	self.redirect('/start')
+	        	# else:
+	        	# 	self.redirect('/')
 class UserInfoHandler(Handler):
 	def post(self):
 		pass
@@ -165,9 +167,21 @@ class UserInfoHandler(Handler):
 		'Human Civil Rights' : 15,
 		'Research & Public Policy' : 20 ,
 		'Religion' : 20 }
-
+		sectors = json.dumps(sectors)
 		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
+class OrgInfoHandler(Handler):
+	def get(self):
+		org_name = "Big Boobies Charity"
+		user_gender = [34, 45]
+		occupation = {
+			'Doctor ' :34,
+			'Conductor' : 43,
+			'Hali' : 10,
+			'Student' : 3,
+			'Others' : 10, 
+		}
+		self.render("org-info.html", org_name = org_name, user_gender = user_gender, occupation = occupation)
 class LoginHandler(Handler):
 	def get(self):
 		self.render("")
@@ -189,12 +203,18 @@ class LoginHandler(Handler):
 		   		"X-Parse-Revocable-Session": "1"
 		 		})
 				result = json.loads(connection.getresponse().read())
-				print result
-	            #self.login(u)
-	            #self.redirect('/start')
-	        else:
-	            msg="Invalid Login Info"
-	            self.redirect('/')
+				if(result['createdAt']):
+					user_id = result['objectId']
+					self.login(user_id)
+					self.redirect('/start')
+				else:
+					self.redirect('/')
+				# if(result['createdAt']):
+				# 	user_id = result['objectId']
+				# 	self.login(user_id)
+	   #          	self.redirect('/start')
+	        	#else:
+	            #	self.redirect('/')
 class UserPageHandler(Handler):
 	def get(self):
 		self.render("", username = self.user.username)
