@@ -143,17 +143,14 @@ class SignupHandler(Handler):
 	        		"Content-Type": "application/json"
 	        		})
 	        	result = json.loads(connection.getresponse().read())
-	        	self.response.write(result)
-	        	if(result['createdAt']):
+	        	resultStr = str(result)
+	        	if(resultStr.find('error')):
+	        		self.response.write(resultStr)
+	        	else:
 	        		user_id = result['objectId']
 	        		self.login(user_id)
 	        		self.redirect('/start')
-	        	# if(result['createdAt']):
-	        	# 	user_id = result['objectId']
-	        	# 	self.login(user_id)
-	         #    	self.redirect('/start')
-	        	# else:
-	        	# 	self.redirect('/')
+	        		#self.redirect('/')
 class UserInfoHandler(Handler):
 	def post(self):
 		pass
@@ -161,30 +158,42 @@ class UserInfoHandler(Handler):
 		user_name = "Parasher Ghimire"
 		organizations_donated = ["Brease Awareness", "HIV awareness"]
 		sectors = { 
-		'Health' : 15,
-		'Environment' : 35,
-		'Community Development' : 10 ,
-		'Human Civil Rights' : 15,
-		'Research & Public Policy' : 20 ,
-		'Religion' : 20 }
+		"Health" : 15,
+		"Environment" : 35,
+		"Community Development" : 10 ,
+		"Human Civil Rights" : 15,
+		"Research & Public Policy" : 20 ,
+		"Religion" : 20 }
 		sectors = json.dumps(sectors)
 		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
+class SignUpOrganization(Handler):
+	def get(self):
+		user = ""
+		if self.user:
+			user = self.user.username
+			self.render("index.html", userperson = user)
+		else:
+			self.render("sign-up-org.html")
+	def post():
+		pass
+
+
 class OrgInfoHandler(Handler):
 	def get(self):
 		org_name = "Big Boobies Charity"
 		user_gender = [34, 45]
 		occupation = {
-			'Doctor ' :34,
-			'Conductor' : 43,
-			'Hali' : 10,
-			'Student' : 3,
-			'Others' : 10, 
+			"Doctor" :34,
+			"Conductor" : 43,
+			"Hali": 10,
+			"Student" : 3,
+			"Others" : 10, 
 		}
 		self.render("org-info.html", org_name = org_name, user_gender = user_gender, occupation = occupation)
 class LoginHandler(Handler):
 	def get(self):
-		self.render("")
+		self.render("log-in.html")
 	def post(self):
 		if self.user:
 			self.redirect("/start")
@@ -245,6 +254,7 @@ class Match(Handler):
                     self.render("match.html",match=match)
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/log-in', LoginHandler),
     ('/sign-up-user',SignupHandler),
     ('/start',UserPageHandler),
     ('/user-info', UserInfoHandler),
