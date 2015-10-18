@@ -7,8 +7,7 @@
   <head>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-      
-
+    
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -35,9 +34,24 @@
   </head>
   <body>
   	<center>
-  	<h1> Welcome {{user_name}}</h1>
+  	<h1> Welcome <span id="usernameprofile"> </span> </h1>
     <div id="piechart" style="width: 900px; height: 500px;"></div>
     </center>
+  </body>
+
+    <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }">
+    </script>
+    
+  </head>
+  <body>
+    <center>  <div id="curve_chart" style="width: 900px; height:100px"></div> </center>
   </body>
 	
 {% endblock %}

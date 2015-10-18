@@ -166,17 +166,50 @@ class UserInfoHandler(Handler):
 		"Religion" : 20 }
 		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
+
 class SignUpOrganization(Handler):
 	def get(self):
-		user = ""
+		user = " "
 		if self.user:
 			user = self.user.username
 			self.render("index.html", userperson = user)
 		else:
 			self.render("sign-up-org.html")
-	def post():
-		pass
-
+	def post(self):
+		if self.user:
+			self.redirect("/start")
+		else:
+			error="The Username you provided already exist"
+			org_name = self.request,get("org_name")
+			username= self.request.get("username")
+			password = self.request.get("password")
+			repass=self.request.get('repassword')
+			Location=self.request.get('Location')
+			email=self.request.get("email")
+			category = self.request.get('catogery')
+			Phone_Number= self.request.get('Phone_Number')
+			if password != repass:
+				self.render('index.html', pass_message="Password do not match")
+			else:
+				params = urllib.urlencode(
+					{"loginname" : username,
+					"email" : email,
+                    "name" : org_name,
+                    "location" : Location,
+                    "loginpassword" : password,    
+                    "catogery" : category,
+                    "phone" : Phone_Number,
+                    }
+                    )
+				connection.connect()
+				connection.request('POST', '/1/user?%s' % params, '',
+					{
+					'X-Parse-Application-Id' : APP_KEY,
+					'X-Parse-REST-API-Key' : PARSE_API_KEY,
+					'X-Parse-Revocable-Session': '1'
+					})
+				result = json.loads(connection.getresponse().read())
+				self.response.write(result)
 
 class OrgInfoHandler(Handler):
 	def get(self):
@@ -190,16 +223,18 @@ class OrgInfoHandler(Handler):
 			"Others" : 10, 
 		}
 		self.render("org-info.html", org_name = org_name, user_gender = user_gender, occupation = occupation)
+
 class LoginHandler(Handler):
 	def get(self):
 		self.render("log-in.html")
+
 	def post(self):
-		if self.user:
-			self.redirect("/start")
+		usertype = "donor"
+		if True:
+			return self.redirect("user-info")
 		else:
-			usertype = self.request.get("utype")
-			username=self.request.get("uname")
-	        password=self.request.get("pass")
+			username=self.request.get("username")
+	        password=self.request.get("password")
 	        if usertype == "donor":
 	        	u = db.user_acc.login(username, password)
 	        elif usertype == "organization":
@@ -211,53 +246,31 @@ class LoginHandler(Handler):
 		   		"X-Parse-Revocable-Session": "1"
 		 		})
 				result = json.loads(connection.getresponse().read())
-				if(result['createdAt']):
-					user_id = result['objectId']
-					self.login(user_id)
-					self.redirect('/start')
-				else:
-					self.redirect('/')
+				self.response.write(result)
+				# if(result['createdAt']):
+				# 	self.response.write(result)
+				# 	user_id = result['objectId']
+				# 	self.login(user_id)
+				# 	self.redirect('/start')
+				# else:
+				# 	self.redirect('/')
 				# if(result['createdAt']):
 				# 	user_id = result['objectId']
 				# 	self.login(user_id)
 	   #          	self.redirect('/start')
 	        	#else:
 	            #	self.redirect('/')
-class UserPageHandler(Handler):
-	def get(self):
-		self.render("", username = self.user.username)
-	def post(self):
-		pass
 
 class Logout(Handler):#handles user logout 
     def get(self):
         self.logout()
         self.redirect('/')
-class books(Handler): #display user books
-    def get(self):
-        cursor=db.user_book.get_all(self.user.username)
-        book_list=list(cursor)
-        self.render("mybs.html",book_list=book_list, username=self.user.username)
-class Repository(Handler):
-    def get(self):
-        search_query=self.request.get('query')
-        if search_query:
-                result=db.user_book.get_by_query(search_query)
-                book_list=list(result)
-        self.render("repo.html")
-         
-class Match(Handler):
-    def get(self):
-            if self.user:
-                    match=db.user_match.get_all(self.user.username)
-                    self.render("match.html",match=match)
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/log-in', LoginHandler),
     ('/sign-up-user',SignupHandler),
-    ('/start',UserPageHandler),
+    ('/sign-up-org',SignUpOrganization),
     ('/user-info', UserInfoHandler),
     ('/logout',Logout),
-	('/mbs',books),
-    ('/match',Match),
 ], debug=True)

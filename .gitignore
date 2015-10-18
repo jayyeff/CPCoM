@@ -1,2 +1,8 @@
 
 *.pyc
+
+donner/db.pyc
+
+*.yaml
+
+*.pyc
