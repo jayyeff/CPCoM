@@ -162,9 +162,8 @@ class UserInfoHandler(Handler):
 		"Environment" : 35,
 		"Community Development" : 10 ,
 		"Human Civil Rights" : 15,
-		"Research & Public Policy" : 20 ,
+		"Research Public Policy" : 20 ,
 		"Religion" : 20 }
-		sectors = json.dumps(sectors)
 		donated_over_months = [120, 130, 10, 13, 12, 12, 12 ,12 ,13, 14, 30, 14]
 		self.render("user-info.html", user_name = user_name, organizations_donated = organizations_donated, sectors = sectors, donated_over_months = donated_over_months)
 class SignUpOrganization(Handler):

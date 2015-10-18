@@ -4,42 +4,40 @@
 
 <br><br><br><br>
 
-<body>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      
 
- <div style="margin-left:45px; width:100%;">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+      	var sectors = {{sectors|safe}}
+      	var mainList = [["Sectors","Donation Amount"]];
+      	for(var key in sectors){
+      		var list = [];
+      		list.push(key);
+      		list.push(sectors[key]);
+      		mainList.push(list);
+      	}
 
- 	<h1 > Welcome Surab! </h1>
- 	<center>
- 	 	<h3> Total Donation</h3>
-	 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	    <script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      google.setOnLoadCallback(drawChart);
-	      var sectors = {{sectors}};
-	      function drawChart(sectors) {
-	      	var minList = []
-	      	for(var key in sectors){
-	      		var list = [];
-	      		list.push(key);
-	      		list.push(sectors[key]);
-	      	}
+        var data = google.visualization.arrayToDataTable(mainList);
 
-	        var data = google.visualization.arrayToDataTable(minList);
-	        var options = {
-	          title: 'Your Donation',
-	          pieHole: 0.4,
-	        };
+        var options = {
+          title: 'Total Donation'
+        };
 
-	        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-	        chart.draw(data, options);
-	      }
-	    </script>
-	    <div id="donutchart" style="width: 900px; height: 500px;"></div>
-		</div>
-	</center>
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-</body>
-
-
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+  	<center>
+  	<h1> Welcome {{user_name}}</h1>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+    </center>
+  </body>
 	
 {% endblock %}
