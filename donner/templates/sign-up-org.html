@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block user %} {{userperson}} {% endblock %}
+{% block body %}
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+  <center>
+
+
+  <div class = "container">
+
+    <h1>SIGN UP</h1>
+  <form role="form" method = "POST">
+
+  <div class="form-group">
+    <label for="companyName">Organization Name:</label>
+    <input type="text" placeholder = "enter name" class="form-control" id="firstName" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="location">Location:</label>
+    <input type="text" placeholder = "enter location" class="form-control" id="location" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="cator">Catoring:</label>
+    <input type="radio" name="cator" value="animal" checked> Animal Rights
+    <br>
+    <input type="radio" name="cator" value="social"> Social Injustice
+    <br>
+    <input type="radio" name="cator" value="social"> Health Issues
+
+  </div>
+
+
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" placeholder = "enter email" class="form-control" id="email" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone Contact:</label>
+    <input type="text" placeholder = "enter phone number" class="form-control" id="phone" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" placeholder = "enter password" class="form-control" id="pwd" style="width: 300px;">
+  </div>
+
+  <div class="form-group">
+    <label for="conpwd">Confirm Password:</label>
+    <input type="password" placeholder = "re-enter password" class="form-control" id="conpwd" style="width: 300px;">
+  </div>
+
+  
+  <br><br>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+<br>
+<br><br>
+
+</center>
+
+{% endblock %}
