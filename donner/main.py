@@ -104,6 +104,48 @@ class MainHandler(Handler):
         self.render("index.html", userperson=user)
     def post(self):
         error="The Username you provided already exist"
+
+class org_signupHandler(Handler):
+    def get(self):
+        user = ""
+        if self.user:
+            user = self.user.username
+            self.render("index.html", userperson = user)
+        else:
+            self.render("sign-up-org.html")
+    def post(self):
+        if self.org_person:
+            self.redirect("/start")
+        else:
+            error="The Username you provided already exist"
+            org_name = self.request,get("org_name")
+            username= self.request.get("username")
+            password = self.request.get("password")
+            repass=self.request.get('repassword')
+            email=self.request.get("email")
+            category = self.request.get('catogery')
+            Phone_Number= self.request.get('Phone_Number')
+            if password != repass:
+                    self.render('index.html', pass_message="Password do not match")
+            else:
+                params = urllib.urlencode(
+                    {"loginname" : username,
+                     "email" : email,
+                     "name" : org_name,
+                     "loginpassword" : password,    
+                     "catogery" : category,
+                     "phone" : Phone_Number,
+                    }
+                    )
+                connection.connect()
+                connection.request('GET', '/1/login?%s' % params, '',
+                    {
+                    'X-Parse-Application-Id' : APP_KEY,
+                    'X-Parse-REST-API-Key' : PARSE_API_KEY,
+                    'X-Parse-Revocable-Session': '1'
+                    })
+                result = json.loads(connection.getresponse().read())
+                self.response.write(result)
             
 class SignupHandler(Handler):
 	def get(self):
@@ -227,6 +269,7 @@ class Match(Handler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/sign-up-user',SignupHandler),
+    ('/sign-up-org',org_signupHandler),
     ('/start',UserPageHandler),
     ('/user-info', UserInfoHandler),
     ('/logout',Logout),
